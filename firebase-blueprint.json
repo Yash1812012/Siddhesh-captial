@@ -1,0 +1,36 @@
+{
+  "entities": {
+    "UserProfile": {
+      "collection": "users",
+      "fields": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "timestamp" },
+        "lastLoginAt": { "type": "timestamp" }
+      }
+    },
+    "CreditInquiry": {
+      "collection": "users/{userId}/inquiries",
+      "fields": {
+        "facilityType": { "type": "string" },
+        "amountCrore": { "type": "number" },
+        "tenorMonths": { "type": "number" },
+        "estimatedMonthlyEmiLakhs": { "type": "string" },
+        "notes": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "timestamp" }
+      }
+    },
+    "UserBookmark": {
+      "collection": "users/{userId}/bookmarks",
+      "fields": {
+        "type": { "type": "string" },
+        "title": { "type": "string" },
+        "data": { "type": "map" },
+        "createdAt": { "type": "timestamp" }
+      }
+    }
+  }
+}
