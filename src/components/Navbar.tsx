@@ -1,4 +1,4 @@
-import { Search, Compass, LogOut } from 'lucide-react';
+import { Search, Compass, LogOut, Phone, Calculator, Users, Landmark, Mail } from 'lucide-react';
 import type { User } from 'firebase/auth';
 import type { ModalType } from '../types/corporate';
 
@@ -7,6 +7,7 @@ interface NavbarProps {
   authLoading: boolean;
   inquiryCount: number;
   mobileMenuOpen: boolean;
+  phone: string;
   onToggleMobileMenu: () => void;
   onOpenModal: (title: string, subtitle: string, type: ModalType) => void;
   onSignIn: () => void;
@@ -18,116 +19,114 @@ export function Navbar({
   authLoading,
   inquiryCount,
   mobileMenuOpen,
+  phone,
   onToggleMobileMenu,
   onOpenModal,
   onSignIn,
   onSignOut,
 }: NavbarProps) {
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <header className="fixed top-0 left-0 right-0 w-full z-20 px-4 sm:px-8 py-3.5 sm:py-4 flex justify-between items-center backdrop-blur-md bg-black/25 border-b border-white/10">
-      {/* Zone 1: Wordmark */}
+    <header className="fixed top-0 left-0 right-0 w-full z-30 px-4 sm:px-8 py-3.5 flex justify-between items-center backdrop-blur-xl bg-black/75 border-b border-white/10 transition-all">
+      {/* Brand Logo */}
       <div className="flex items-center gap-3">
         <a
-          href="/"
-          className="text-[20px] sm:text-[25px] tracking-tight text-white font-heading font-normal not-italic cursor-pointer leading-none"
-          style={{ fontFamily: 'var(--font-heading)', fontStyle: 'normal' }}
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="flex items-center gap-2 cursor-pointer group"
         >
-          SIDDHESH
+          <span className="text-lg sm:text-xl font-bold tracking-tight text-white group-hover:text-emerald-400 transition-colors">
+            SIDDHESH CAPITAL
+          </span>
+          <span className="text-amber-400 text-xl leading-none select-none">&#10035;&#xFE0E;</span>
+          <span className="hidden md:inline-block text-[10px] text-neutral-400 font-mono pl-1 border-l border-white/20">
+            Est. 1995 &bull; Nariman Point
+          </span>
         </a>
-        <span
-          className="text-[24px] sm:text-[28px] text-white select-none leading-none opacity-85"
-          style={{ letterSpacing: '-0.02em' }}
-          aria-hidden="true"
-        >
-          &#10035;&#xFE0E;
-        </span>
       </div>
 
-      {/* Zone 2: Navigation Links */}
-      <nav className="hidden lg:flex items-center text-[17px] xl:text-[19px] text-white tracking-tight gap-1">
+      {/* Nav Links */}
+      <nav className="hidden lg:flex items-center text-xs sm:text-sm text-neutral-300 font-medium tracking-tight gap-1">
         <button
           type="button"
-          onClick={() =>
-            onOpenModal(
-              'Capital & Financial Structure',
-              'Authorized and paid-up capital, revenue range, and equity structure.',
-              'capital',
-            )
-          }
-          className="hover:opacity-60 transition-opacity cursor-pointer bg-transparent border-none px-2 py-1 text-white"
+          onClick={() => scrollTo('calculator')}
+          className="text-emerald-400 hover:text-emerald-300 hover:bg-white/5 transition-all px-3 py-1.5 rounded-lg cursor-pointer flex items-center gap-1.5"
         >
-          Capital
+          <Calculator className="w-3.5 h-3.5" />
+          <span>Calculator</span>
         </button>
-        <span className="select-none text-white/30">·</span>
+
         <button
           type="button"
-          onClick={() =>
-            onOpenModal(
-              'Board of Directors & Governance',
-              'Key managerial personnel, executive directors, and statutory signatories.',
-              'management',
-            )
-          }
-          className="hover:opacity-60 transition-opacity cursor-pointer bg-transparent border-none px-2 py-1 text-white"
+          onClick={() => scrollTo('facilities')}
+          className="hover:text-white hover:bg-white/5 transition-all px-3 py-1.5 rounded-lg cursor-pointer"
         >
-          Leadership
+          Facilities
         </button>
-        <span className="select-none text-white/30">·</span>
+
         <button
           type="button"
-          onClick={() =>
-            onOpenModal(
-              'Commercial Credit Facility Estimator',
-              'Institutional loan and commercial credit sizing under NIC Code 6592.',
-              'calculator',
-            )
-          }
-          className="hover:opacity-60 transition-opacity cursor-pointer bg-transparent border-none px-2 py-1 text-white"
+          onClick={() => scrollTo('capital')}
+          className="hover:text-white hover:bg-white/5 transition-all px-3 py-1.5 rounded-lg cursor-pointer"
         >
-          Credit Estimator
+          Capital &amp; Board
         </button>
-        <span className="select-none text-white/30">·</span>
+
         <button
           type="button"
-          onClick={() =>
-            onOpenModal(
-              'Google Search Grounding',
-              'Live web intelligence and market regulatory data grounded with Google Search.',
-              'searchGrounding',
-            )
-          }
-          className="hover:opacity-60 transition-opacity cursor-pointer bg-transparent border-none px-2 py-1 text-white flex items-center gap-1.5"
+          onClick={() => scrollTo('market-intelligence')}
+          className="hover:text-white hover:bg-white/5 transition-all px-3 py-1.5 rounded-lg cursor-pointer flex items-center gap-1"
         >
           <Search className="w-3.5 h-3.5 text-blue-400" />
-          <span>Search Data</span>
+          <span>Market Search</span>
         </button>
-        <span className="select-none text-white/30">·</span>
+
         <button
           type="button"
-          onClick={() =>
-            onOpenModal(
-              'Google Maps Grounding',
-              'Real-time geographic verification, transit, and business district intelligence.',
-              'mapsGrounding',
-            )
-          }
-          className="hover:opacity-60 transition-opacity cursor-pointer bg-transparent border-none px-2 py-1 text-white flex items-center gap-1.5"
+          onClick={() => scrollTo('location')}
+          className="hover:text-white hover:bg-white/5 transition-all px-3 py-1.5 rounded-lg cursor-pointer flex items-center gap-1"
         >
           <Compass className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Maps Data</span>
+          <span>Nariman Pt. HQ</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => scrollTo('contact')}
+          className="hover:text-white hover:bg-white/5 transition-all px-3 py-1.5 rounded-lg cursor-pointer"
+        >
+          Contact Desk
         </button>
       </nav>
 
-      {/* Zone 3: Auth & Portal Button */}
-      <div className="flex items-center gap-3">
+      {/* User Auth & Actions */}
+      <div className="flex items-center gap-2 sm:gap-3">
+        {/* Direct Call Quick Link */}
+        <a
+          href={`tel:${phone.replace(/\s+/g, '')}`}
+          className="hidden sm:inline-flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg border border-white/10 transition-colors font-mono"
+        >
+          <Phone className="w-3 h-3 text-emerald-400" />
+          <span>{phone}</span>
+        </a>
+
         {currentUser ? (
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() =>
                 onOpenModal(
-                  'Client Portal & Database',
-                  'Your saved facility inquiries, active simulations, and corporate bookmarks.',
+                  'My Account',
+                  'Your saved loan calculations, inquiries, and bookmarks.',
                   'userPortal',
                 )
               }
@@ -145,7 +144,7 @@ export function Navbar({
                 </div>
               )}
               <span className="hidden sm:inline font-medium">
-                {currentUser.displayName?.split(' ')[0] || 'My Portal'}
+                {currentUser.displayName?.split(' ')[0] || 'My Account'}
               </span>
               {inquiryCount > 0 && (
                 <span className="px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono">
@@ -167,7 +166,7 @@ export function Navbar({
             type="button"
             onClick={onSignIn}
             disabled={authLoading}
-            className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white text-black hover:bg-neutral-200 text-xs font-medium transition-colors cursor-pointer"
+            className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white text-black hover:bg-neutral-200 text-xs font-semibold transition-colors cursor-pointer shadow-md"
           >
             {/* Google G icon */}
             <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
@@ -196,22 +195,22 @@ export function Navbar({
         <button
           type="button"
           onClick={onToggleMobileMenu}
-          className="lg:hidden flex flex-col justify-center items-center w-8 h-8 gap-[5px] focus:outline-none cursor-pointer z-30"
+          className="lg:hidden flex flex-col justify-center items-center w-8 h-8 gap-[5px] focus:outline-none cursor-pointer z-40"
           aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           aria-expanded={mobileMenuOpen}
         >
           <span
-            className={`w-6 h-[2px] bg-white transition-all duration-300 transform ${
+            className={`w-5 h-[2px] bg-white transition-all duration-300 transform ${
               mobileMenuOpen ? 'rotate-45 translate-y-[7px]' : ''
             }`}
           />
           <span
-            className={`w-6 h-[2px] bg-white transition-opacity duration-300 ${
+            className={`w-5 h-[2px] bg-white transition-opacity duration-300 ${
               mobileMenuOpen ? 'opacity-0' : 'opacity-100'
             }`}
           />
           <span
-            className={`w-6 h-[2px] bg-white transition-all duration-300 transform ${
+            className={`w-5 h-[2px] bg-white transition-all duration-300 transform ${
               mobileMenuOpen ? '-rotate-45 -translate-y-[7px]' : ''
             }`}
           />

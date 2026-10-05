@@ -1,4 +1,4 @@
-import { LogIn, X } from 'lucide-react';
+import { LogIn, X, BookmarkCheck, Calculator, CheckCircle2 } from 'lucide-react';
 import type { User } from 'firebase/auth';
 import type { SavedCreditInquiry, UserBookmark } from '../../firebase';
 
@@ -26,10 +26,10 @@ export function UserPortalModal({
       <div className="p-8 text-center space-y-4 bg-white/5 border border-white/10 rounded-2xl">
         <LogIn className="w-10 h-10 mx-auto text-emerald-400" />
         <div>
-          <h4 className="text-lg font-semibold text-white">Sign In to Your Client Account</h4>
+          <h4 className="text-lg font-semibold text-white">Sign In to Your Account</h4>
           <p className="text-xs text-neutral-400 max-w-sm mx-auto mt-1">
-            Use Google Authentication to track your commercial loan inquiries, access statutory
-            filings, and persist portfolio records securely in Firestore.
+            Sign in with Google to save your loan calculations, store company bookmarks, and track inquiries
+            securely across sessions.
           </p>
         </div>
         <button
@@ -63,7 +63,7 @@ export function UserPortalModal({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       {/* User Profile Card */}
       <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -80,12 +80,12 @@ export function UserPortalModal({
           )}
           <div>
             <p className="font-semibold text-white text-sm sm:text-base">
-              {currentUser.displayName || 'Authorized Client'}
+              {currentUser.displayName || 'User'}
             </p>
             <p className="text-xs text-neutral-400 font-mono">{currentUser.email}</p>
             <span className="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-medium mt-0.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              Firebase Auth &bull; Firestore Connected
+              Connected with Firebase &amp; Firestore
             </span>
           </div>
         </div>
@@ -98,28 +98,28 @@ export function UserPortalModal({
         </button>
       </div>
 
-      {/* Section 1: Saved Facility Inquiries (Firestore) */}
-      <div className="space-y-2">
+      {/* Section 1: Saved Loan Estimates & Inquiries */}
+      <div className="space-y-2.5">
         <div className="flex items-center justify-between">
           <span className="text-xs uppercase tracking-wider text-neutral-400 font-medium">
-            Your Active Credit Applications in Firestore ({userInquiries.length})
+            Saved Loan Estimates ({userInquiries.length})
           </span>
           <button
             type="button"
             onClick={onOpenCalculator}
-            className="text-xs text-emerald-400 hover:underline cursor-pointer"
+            className="text-xs text-emerald-400 hover:underline cursor-pointer flex items-center gap-1"
           >
-            + New Application
+            <Calculator className="w-3.5 h-3.5" />
+            <span>+ New Estimate</span>
           </button>
         </div>
 
         {userInquiries.length === 0 ? (
           <div className="p-4 rounded-xl bg-neutral-900/60 border border-white/5 text-center text-xs text-neutral-400">
-            No credit facility applications submitted yet. Use the Credit Facility Sizer to simulate
-            and save applications directly to your Firestore database.
+            No saved estimates yet. Use the Loan Calculator to estimate amounts and save them here.
           </div>
         ) : (
-          <div className="space-y-2 max-h-[30vh] overflow-y-auto pr-1">
+          <div className="space-y-2 max-h-[32vh] overflow-y-auto pr-1">
             {userInquiries.map((inq) => (
               <div
                 key={inq.id}
@@ -131,14 +131,14 @@ export function UserPortalModal({
                     <span className="text-xs text-neutral-400">&bull; {inq.facilityType}</span>
                   </div>
                   <p className="text-xs text-neutral-400 mt-0.5">
-                    Tenor: {inq.tenorMonths} Mo &bull; Monthly Servicing: ₹{inq.monthlyEmiLakhs} Lakhs
+                    Tenor: {inq.tenorMonths} Months &bull; Est. Servicing: ₹{inq.monthlyEmiLakhs} Lakhs/mo
                   </p>
                   {inq.notes && (
-                    <p className="text-[11px] text-neutral-500 mt-1 italic">&ldquo;{inq.notes}&rdquo;</p>
+                    <p className="text-[11px] text-neutral-400 mt-1 italic">&ldquo;{inq.notes}&rdquo;</p>
                   )}
                 </div>
                 <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-300 text-[11px] font-medium self-start sm:self-center">
-                  {inq.status || 'Under Review'}
+                  {inq.status || 'Saved'}
                 </span>
               </div>
             ))}
@@ -146,18 +146,17 @@ export function UserPortalModal({
         )}
       </div>
 
-      {/* Section 2: Bookmarks in Firestore */}
+      {/* Section 2: Bookmarks */}
       <div className="space-y-2">
         <span className="text-xs uppercase tracking-wider text-neutral-400 font-medium block">
-          Saved Corporate Records in Database ({userBookmarks.length})
+          Saved Bookmarks ({userBookmarks.length})
         </span>
         {userBookmarks.length === 0 ? (
           <div className="p-3 rounded-xl bg-neutral-900/60 border border-white/5 text-center text-xs text-neutral-400">
-            Bookmark financial profiles and regulatory disclosures to access them quickly across
-            sessions.
+            Click the bookmark icon on any card to quickly access company details here.
           </div>
         ) : (
-          <div className="space-y-1.5 max-h-[20vh] overflow-y-auto pr-1">
+          <div className="space-y-1.5 max-h-[22vh] overflow-y-auto pr-1">
             {userBookmarks.map((bm) => (
               <div
                 key={bm.id}
